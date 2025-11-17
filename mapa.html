@@ -5,9 +5,6 @@
   <title>lighthouses</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
-  <!-- parquet lite -->
-  <script src="https://cdn.jsdelivr.net/npm/parquetjs-lite@1.4.0/dist/parquet.min.js"></script>
 
   <style>
     body, html { margin: 0; padding: 0; height: 100%; }
@@ -97,9 +94,13 @@
     createButton("remove", "zoom out", () => map.zoomOut());
     createButton("add", "zoom in", () => map.zoomIn());
 
+    // botón para encender/apagar buffers
     let bufferButton = null;
+
     function toggleBuffers() {
       if (!farosLayer) return;
+
+      // mostrar/ocultar buffers y círculos
       farosLayer.eachLayer(layer => {
         if (layer instanceof L.LayerGroup) {
           layer.eachLayer(subLayer => {
@@ -110,7 +111,9 @@
           });
         }
       });
+
       buffersVisible = !buffersVisible;
+
       const iconSpan = bufferButton.getContainer().querySelector(".material-icons");
       if (buffersVisible) {
         iconSpan.textContent = "lightbulb";
@@ -120,11 +123,15 @@
         iconSpan.style.color = "";
       }
     }
+
     bufferButton = createButton("lightbulb_outline", "turn on/off buffers", toggleBuffers, "topright");
 
+    // botón para encender/apagar puntos
     let pointsButton = null;
+
     function togglePoints() {
       if (!farosLayer) return;
+
       farosLayer.eachLayer(layer => {
         if (layer instanceof L.LayerGroup) {
           layer.eachLayer(subLayer => {
@@ -135,12 +142,16 @@
           });
         }
       });
+
       pointsVisible = !pointsVisible;
+
       const iconSpan = pointsButton.getContainer().querySelector(".material-icons");
       iconSpan.textContent = pointsVisible ? "radio_button_checked" : "radio_button_unchecked";
       iconSpan.style.color = "";
     }
+
     pointsButton = createButton("radio_button_unchecked", "show/hide lighthouses", togglePoints, "topright");
+
   </script>
 </body>
 </html>
